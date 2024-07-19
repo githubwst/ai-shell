@@ -1,9 +1,4 @@
-import {
-  OpenAIApi,
-  Configuration,
-  ChatCompletionRequestMessage,
-  Model,
-} from 'openai';
+import { OpenAIApi, Configuration, ChatCompletionRequestMessage } from 'openai';
 import dedent from 'dedent';
 import { IncomingMessage } from 'http';
 import { KnownError } from './error';
@@ -15,12 +10,13 @@ import './replace-all-polyfill';
 import i18n from './i18n';
 import { stripRegexPatterns } from './strip-regex-patterns';
 import readline from 'readline';
+import devchat from './devchat';
 
 const explainInSecondRequest = true;
 
-function getOpenAi(key: string, apiEndpoint: string) {
+function getOpenAi(key: string, apiEndpoint: string): OpenAIApi {
   const openAi = new OpenAIApi(
-    new Configuration({ apiKey: key, basePath: apiEndpoint })
+    new Configuration({ apiKey: key, basePath: apiEndpoint }),
   );
   return openAi;
 }
@@ -68,27 +64,42 @@ export async function generateCompletion({
   key: string;
   apiEndpoint: string;
 }) {
-  const openAi = getOpenAi(key, apiEndpoint);
-  try {
-    const completion = await openAi.createChatCompletion(
-      {
-        model: model || 'gpt-3.5-turbo',
-        messages: Array.isArray(prompt)
-          ? prompt
-          : [{ role: 'user', content: prompt }],
-        n: Math.min(number, 10),
-        stream: true,
-      },
-      { responseType: 'stream' }
-    );
+  let openAi;
+  let completion;
 
-    return completion.data as unknown as IncomingMessage;
+  try {
+    switch (model) {
+      case 'gpt-3.5-turbo':
+        openAi = getOpenAi(key, apiEndpoint);
+        completion = await openAi.createChatCompletion(
+          {
+            model: model,
+            messages: Array.isArray(prompt)
+              ? prompt
+              : [{ role: 'user', content: prompt }],
+            n: Math.min(number, 10),
+            stream: true,
+          },
+          { responseType: 'stream' },
+        );
+        return completion.data as unknown as IncomingMessage;
+      default:
+        completion = await devchat.createChatCompletion({
+          model: model || 'gpt-35-turbo',
+          messages: Array.isArray(prompt)
+            ? prompt
+            : [{ role: 'user', content: prompt }],
+          n: Math.min(number, 10),
+          stream: true,
+        });
+        return completion.data as unknown as IncomingMessage;
+    }
   } catch (err) {
     const error = err as AxiosError;
 
     if (error.code === 'ENOTFOUND') {
       throw new KnownError(
-        `Error connecting to ${error.request.hostname} (${error.request.syscall}). Are you connected to the internet?`
+        `Error connecting to ${error.request.hostname} (${error.request.syscall}). Are you connected to the internet?`,
       );
     }
 
@@ -96,7 +107,7 @@ export async function generateCompletion({
     let message = response?.data as string | object | IncomingMessage;
     if (response && message instanceof IncomingMessage) {
       message = await streamToString(
-        response.data as unknown as IncomingMessage
+        response.data as unknown as IncomingMessage,
       );
       try {
         // Handle if the message is JSON. It should be but occasionally will
@@ -119,7 +130,7 @@ export async function generateCompletion({
       ` +
           '\n\n' +
           messageString +
-          '\n'
+          '\n',
       );
     } else if (response && message) {
       throw new KnownError(
@@ -128,7 +139,7 @@ export async function generateCompletion({
       ` +
           '\n\n' +
           messageString +
-          '\n'
+          '\n',
       );
     }
 
@@ -221,7 +232,6 @@ export const readData =
             resolve(data);
             return;
           }
-
           if (payload.startsWith('data:')) {
             content = parseContent(payload);
             // Use buffer only for start detection
@@ -236,10 +246,10 @@ export const readData =
               }
             }
 
-            if (dataStart && content) {
+            if (content) {
               const contentWithoutExcluded = stripRegexPatterns(
                 content,
-                excluded
+                excluded,
               );
 
               data += contentWithoutExcluded;
@@ -260,6 +270,18 @@ export const readData =
       }
 
       resolve(data);
+    });
+
+export const readDataMock =
+  (data: string) =>
+  (writer: (data: string) => void): Promise<string> =>
+    new Promise(async (resolve) => {
+      const rl = readline.createInterface({
+        input: process.stdin,
+      });
+      process.stdin.setRawMode(true);
+      writer(data + '666');
+      resolve(data + '777');
     });
 
 function getExplanationPrompt(script: string) {
@@ -321,10 +343,19 @@ function getRevisionPrompt(prompt: string, code: string) {
 
 export async function getModels(
   key: string,
-  apiEndpoint: string
-): Promise<Model[]> {
-  const openAi = getOpenAi(key, apiEndpoint);
-  const response = await openAi.listModels();
+  apiEndpoint: string,
+): Promise<string[]> {
+  // const openAi = getOpenAi(key, apiEndpoint);
+  // const response = await openAi.listModels();
+  // return response.data.data.filter((model) => model.object === 'model');
 
-  return response.data.data.filter((model) => model.object === 'model');
+  return [
+    'gptv',
+    'gpt-4-0125-preview',
+    'gpt-4-1106-preview',
+    'gpt-35-turbo',
+    'dall-e-3',
+    'dall-e',
+    'gpt-4-turbo-2024-04-09',
+  ];
 }

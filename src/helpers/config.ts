@@ -2,14 +2,12 @@ import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
 import ini from 'ini';
-import type { TiktokenModel } from '@dqbd/tiktoken';
 import { commandName } from './constants';
 import { KnownError, handleCliError } from './error';
 import * as p from '@clack/prompts';
 import { red } from 'kolorist';
 import i18n from './i18n';
 import { getModels } from './completion';
-import { Model } from 'openai';
 
 const { hasOwnProperty } = Object.prototype;
 export const hasOwn = (object: unknown, key: PropertyKey) =>
@@ -23,7 +21,7 @@ const languagesOptions = Object.entries(i18n.languages).map(([key, value]) => ({
 const parseAssert = (name: string, condition: any, message: string) => {
   if (!condition) {
     throw new KnownError(
-      `${i18n.t('Invalid config property')} ${name}: ${message}`
+      `${i18n.t('Invalid config property')} ${name}: ${message}`,
     );
   }
 };
@@ -32,7 +30,7 @@ const configParsers = {
   OPENAI_KEY(key?: string) {
     if (!key) {
       throw new KnownError(
-        `Please set your OpenAI API key via \`${commandName} config set OPENAI_KEY=<your token>\`` // TODO: i18n
+        `Please set your OpenAI API key via \`${commandName} config set OPENAI_KEY=<your token>\``, // TODO: i18n
       );
     }
 
@@ -43,7 +41,7 @@ const configParsers = {
       return 'gpt-3.5-turbo';
     }
 
-    return model as TiktokenModel;
+    return model;
   },
   SILENT_MODE(mode?: string) {
     return String(mode).toLowerCase() === 'true';
@@ -71,7 +69,7 @@ const configPath = path.join(os.homedir(), '.ai-shell');
 const fileExists = (filePath: string) =>
   fs.lstat(filePath).then(
     () => true,
-    () => false
+    () => false,
   );
 
 const readConfigFile = async (): Promise<RawConfig> => {
@@ -85,7 +83,7 @@ const readConfigFile = async (): Promise<RawConfig> => {
 };
 
 export const getConfig = async (
-  cliConfig?: RawConfig
+  cliConfig?: RawConfig,
 ): Promise<ValidConfig> => {
   const config = await readConfigFile();
   const parsedConfig: Record<string, unknown> = {};
@@ -193,8 +191,8 @@ export const showConfigUI = async () => {
       const models = await getModels(key, apiEndpoint);
       const model = (await p.select({
         message: 'Pick a model.',
-        options: models.map((m: Model) => {
-          return { value: m.id, label: m.id };
+        options: models.map((m: string) => {
+          return { value: m, label: m };
         }),
       })) as string;
 

@@ -1,11 +1,11 @@
 import { command } from 'cleye';
-import { spinner, intro, outro, text, isCancel } from '@clack/prompts';
-import { cyan, green } from 'kolorist';
-import { generateCompletion, readData } from '../helpers/completion';
+import { intro, outro, text, isCancel } from '@clack/prompts';
+import { cyan } from 'kolorist';
 import { getConfig } from '../helpers/config';
-import { streamToIterable } from '../helpers/stream-to-iterable';
 import { ChatCompletionRequestMessage } from 'openai';
 import i18n from '../helpers/i18n';
+import { generateCompletion, readData } from '../helpers/completion';
+import { streamToIterable } from '../helpers/stream-to-iterable';
 
 export default command(
   {
@@ -40,8 +40,8 @@ export default command(
         process.exit(0);
       }
 
-      const infoSpin = spinner();
-      infoSpin.start(i18n.t(`THINKING...`));
+      // const infoSpin = spinner();
+      // infoSpin.start(i18n.t(`THINKING...`));
       chatHistory.push({
         role: 'user',
         content: userPrompt,
@@ -53,10 +53,10 @@ export default command(
         apiEndpoint,
       });
 
-      infoSpin.stop(`${green('AI Shell:')}`);
+      // infoSpin.stop(`${green('AI Shell:')}`);
       console.log('');
       const fullResponse = await readResponse(
-        process.stdout.write.bind(process.stdout)
+        process.stdout.write.bind(process.stdout),
       );
       chatHistory.push({
         role: 'assistant',
@@ -68,7 +68,7 @@ export default command(
     };
 
     prompt();
-  }
+  },
 );
 
 async function getResponse({
@@ -84,15 +84,23 @@ async function getResponse({
   key: string;
   apiEndpoint: string;
 }) {
-  const stream = await generateCompletion({
+  let now = new Date().getTime();
+  process.stdout.write(`1 ${now}\n`);
+  const completionResult = await generateCompletion({
     prompt,
     key,
     model,
     number,
     apiEndpoint,
   });
+  now = new Date().getTime();
+  process.stdout.write(`2 ${now}\n`);
 
-  const iterableStream = streamToIterable(stream);
-
+  // if (completionResult instanceof IncomingMessage) {
+  const iterableStream = streamToIterable(completionResult);
   return { readResponse: readData(iterableStream) };
+
+  // } else {
+  // return { readResponse: readDataMock(completionResult) }
+  // }
 }

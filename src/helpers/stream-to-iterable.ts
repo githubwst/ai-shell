@@ -1,3 +1,14 @@
+/*
+ * @Author: wangsongtao wangsongtao.heuwst@bytedance.com
+ * @Date: 2024-07-17 13:00:37
+ * @LastEditors: wangsongtao wangsongtao.heuwst@bytedance.com
+ * @LastEditTime: 2024-07-18 21:18:38
+ * @FilePath: /ai-shell/src/helpers/stream-to-iterable.ts
+ * @Description:
+ *
+ *
+ * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
+ */
 import { IncomingMessage } from 'http';
 
 export async function* streamToIterable(stream: IncomingMessage) {
