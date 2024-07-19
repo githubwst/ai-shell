@@ -1,8 +1,9 @@
 {
-	"name": "ai-shell",
+	"name": "@bytewst/ai_shell",
 	"description": "A CLI that converts natural language to shell commands.",
-	"version": "1.0.11",
-	"type": "module",
+	"private": false,
+	"types": "module",
+	"version": "1.0.4",
 	"dependencies": {
 		"@clack/core": "latest",
 		"@clack/prompts": "latest",
@@ -20,11 +21,12 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/githubwst/ai-shell"
+		"url": "https://code.byted.org/wangsongtao.heuwst/ai_shell"
 	},
 	"files": [
 		"dist"
 	],
+	"module": "./dist/cli.mjs",
 	"bin": {
 		"ai-shell": "./dist/cli.mjs",
 		"ai": "./dist/cli.mjs"
@@ -34,7 +36,8 @@
 		"lint:fix": "prettier --write . && eslint --fix",
 		"lint": "prettier --check . && eslint",
 		"typecheck": "tsc",
-		"build": "pkgroll",
+		"build": "ncc build ./src/cli.ts --out ./dist",
+		"pkg": "npm run build && pkg ./dist/index.js -o ./output/bin/ai-shell",
 		"release:patch": "npm run build && npm version patch && npm run build && npm publish && git push --follow-tags"
 	},
 	"devDependencies": {
@@ -43,11 +46,18 @@
 		"@types/node": "^18.19.40",
 		"@typescript-eslint/eslint-plugin": "^5.57.1",
 		"@typescript-eslint/parser": "^5.57.1",
+		"@vercel/ncc": "^0.38.1",
 		"eslint": "^8.38.0",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"jiti": "^1.17.0",
-		"pkgroll": "^1.9.0",
+		"pkgroll": "^1.11.1",
 		"prettier": "^2.8.8",
+		"rollup": "^2.79.1",
+		"rollup-plugin-commonjs": "^10.1.0",
+		"rollup-plugin-node-resolve": "^5.2.0",
+		"rollup-plugin-typescript": "^1.0.1",
+		"ts-loader": "^9.5.1",
+		"tslib": "^2.6.3",
 		"typescript": "^4.9.5"
 	}
 }

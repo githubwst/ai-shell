@@ -1,16 +1,14 @@
 <h2 align="center">
    <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://cdn.builder.io/api/v1/image/assets%2FYJIGb4i01jvw0SRdL5Bt%2Fb5b9997cec2c4fffb3e5c5e9bb4fed7d">
-      <img width="300" alt="AI Shell logo" src="[https://user-images.githubusercontent.com/844291/230786555-a58479e4-75f3-4222-a6eb-74c5af953eac.png](https://cdn.builder.io/api/v1/image/assets%2FYJIGb4i01jvw0SRdL5Bt%2Fb7f9d2d9911a4199a9d26f8ba210b3f8)">
+      <img width="300" alt="AI Shell logo" src="https://cdn.builder.io/api/v1/image/assets%2FYJIGb4i01jvw0SRdL5Bt%2Fb7f9d2d9911a4199a9d26f8ba210b3f8">
     </picture>
 </h2>
 
 <h4 align="center">
-   一个将自然语言转换为 Shell 命令的 CLI。
+   一个将自然语言转换为 Shell 命令，同时支持ai对话的 CLI。
 </h4>
-<p align="center">
-   <a href="https://www.npmjs.com/package/@builder.io/ai-shell"><img src="https://img.shields.io/npm/v/@builder.io/ai-shell" alt="Current version"></a>
-</p>
+
 
 <p align="center">
    <img alt="Gif Demo" src="https://user-images.githubusercontent.com/844291/230413167-773845e7-4c9f-44a5-909c-02802b5e49f6.gif" >
@@ -31,7 +29,7 @@
 1. 安装 _ai shell_:
 
    ```sh
-   npm install -g @builder.io/ai-shell
+   npm install -g @bytewst/ai-shell
    ```
 
 2. 从 [OpenAI](https://platform.openai.com/account/api-keys) 获取您的 API 密钥
@@ -196,10 +194,10 @@ ai config
 ai --version
 ```
 
-如果它不是[最新版本](https://github.com/BuilderIO/ai-shell/tags)，请运行：
+如果它不是[最新版本](https://web-bnpm.byted.org/package/@bytewst/ai_shell?tab=versions)，请运行：
 
 ```bash
-npm update -g @builder.io/ai-shell
+npm update -g @bytewst/ai-shell
 ```
 
 或者只需使用 AI shell：
@@ -210,36 +208,7 @@ ai update
 
 ## 常见问题
 
-### 429 错误
-
-一些用户报告了来自 OpenAI 的 429 错误。这是由于错误的计费设置或过度使用配额所致。请按照[此指南](https://help.openai.com/en/articles/6891831-error-code-429-you-exceeded-your-current-quota-please-check-your-plan-and-billing-details)进行修复。
-
-您可以在[此链接](https://platform.openai.com/account/billing/overview)上激活计费。如果没有获得 OpenAI 的活动赠款，请确保添加支付方式。
-
 ## 动机
 
-我不是一个 bash 巫师，迫切需要访问 copilot CLI，但我已经等不急了。
+以学习为目的。
 
-## 贡献
-
-如果您想在 [Issues](https://github.com/BuilderIO/ai-shell/issues) 中修复错误或实现功能（提示：注意 `help wanted` 标签），请查看 [Contribution Guide](CONTRIBUTING.md) 以了解如何设置项目。
-
-## 致谢
-
-- 感谢 GitHub Copilot 提供的惊人工具和这个想法
-- 感谢 Hassan 和他在 [aicommits](https://github.com/Nutlope/aicommits) 上的工作，这启发了工作流程和部分代码和流程。
-
-## 社区
-
-欢迎加入 [Builder.io Discord](https://discord.gg/EMx6e58xnw) 并在 #ai-shell 房间与我们聊天。
-
-<br><br>
-
-<p align="center">
-   <a href="https://www.builder.io/m/developers">
-      <picture>
-         <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/844291/230786554-eb225eeb-2f6b-4286-b8c2-535b1131744a.png">
-         <img width="250" alt="Made with love by Builder.io" src="https://user-images.githubusercontent.com/844291/230786555-a58479e4-75f3-4222-a6eb-74c5af953eac.png">
-       </picture>
-   </a>
-</p>

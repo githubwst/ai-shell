@@ -12,84 +12,85 @@
 import axios, { AxiosResponse } from 'axios';
 
 class devchat {
-  async createChatCompletion(
-    req: CreateChatCompletionRequest,
-  ): Promise<AxiosResponse<CreateChatCompletionResponse, any>> {
-    return axios.post(
-      'https://gpt-i18n.byteintl.net/gpt/openapi/online/multimodal/crawl/?ak=Pr3oku1gNWTXAvp55MBKp0K9kENjgZQr',
-      req,
-      {
-        responseType: 'stream',
-      },
-    );
-  }
+	async createChatCompletion(
+		req: CreateChatCompletionRequest,
+		ak: string
+	): Promise<AxiosResponse<CreateChatCompletionResponse, any>> {
+		return axios.post(
+			`https://gpt-i18n.byteintl.net/gpt/openapi/online/multimodal/crawl/?ak=${ak}`,
+			req,
+			{
+				responseType: 'stream',
+			},
+		);
+	}
 }
 
 export default new devchat();
 
 export interface ChatCompletionRequestMessage {
-  role: 'user' | 'assistant' | 'system';
+	role: 'user' | 'assistant' | 'system';
 
-  content: string;
+	content: string;
 
-  name?: string;
+	name?: string;
 }
 
 export interface CreateChatCompletionRequest {
-  model: string;
+	model: string;
 
-  messages: Array<ChatCompletionRequestMessage>;
+	messages: Array<ChatCompletionRequestMessage>;
 
-  temperature?: number | null;
+	temperature?: number | null;
 
-  top_p?: number | null;
+	top_p?: number | null;
 
-  n?: number | null;
+	n?: number | null;
 
-  stream?: boolean | null;
+	stream?: boolean | null;
 
-  max_tokens?: number;
+	max_tokens?: number;
 
-  presence_penalty?: number | null;
+	presence_penalty?: number | null;
 
-  frequency_penalty?: number | null;
+	frequency_penalty?: number | null;
 
-  logit_bias?: object | null;
+	logit_bias?: object | null;
 
-  user?: string;
+	user?: string;
 }
 
 export interface CreateChatCompletionResponse {
-  id: string;
+	id: string;
 
-  object: string;
+	object: string;
 
-  created: number;
+	created: number;
 
-  model: string;
+	model: string;
 
-  choices: Array<CreateChatCompletionResponseChoicesInner>;
+	choices: Array<CreateChatCompletionResponseChoicesInner>;
 
-  usage?: CreateCompletionResponseUsage;
+	usage?: CreateCompletionResponseUsage;
 }
 
 export interface CreateChatCompletionResponseChoicesInner {
-  index?: number;
+	index?: number;
 
-  message?: ChatCompletionResponseMessage;
+	message?: ChatCompletionResponseMessage;
 
-  finish_reason?: string;
+	finish_reason?: string;
 }
 
 export interface ChatCompletionResponseMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
+	role: 'user' | 'assistant' | 'system';
+	content: string;
 }
 
 export interface CreateCompletionResponseUsage {
-  prompt_tokens: number;
+	prompt_tokens: number;
 
-  completion_tokens: number;
+	completion_tokens: number;
 
-  total_tokens: number;
+	total_tokens: number;
 }

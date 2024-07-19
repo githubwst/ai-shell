@@ -8,9 +8,6 @@
 <h4 align="center">
    A CLI that converts natural language to shell commands.
 </h4>
-<p align="center">
-   <a href="https://www.npmjs.com/package/@builder.io/ai-shell"><img src="https://img.shields.io/npm/v/@builder.io/ai-shell" alt="Current version"></a>
-</p>
 
 <p align="center">
    <img alt="Gif Demo" src="https://user-images.githubusercontent.com/844291/230413167-773845e7-4c9f-44a5-909c-02802b5e49f6.gif" >
@@ -31,7 +28,7 @@
 1. Install _ai shell_:
 
    ```sh
-   npm install -g @builder.io/ai-shell
+   npm install -g @bytewst/ai-shell
    ```
 
 2. Retrieve your API key from [OpenAI](https://platform.openai.com/account/api-keys)
@@ -195,10 +192,10 @@ Check the installed version with:
 ai --version
 ```
 
-If it's not the [latest version](https://github.com/BuilderIO/ai-shell/tags), run:
+If it's not the [latest version](https://web-bnpm.byted.org/package/@bytewst/ai_shell?tab=versions), run:
 
 ```bash
-npm update -g @builder.io/ai-shell
+npm update -g @bytewst/ai-shell
 ```
 
 Or just use AI shell:
@@ -206,39 +203,3 @@ Or just use AI shell:
 ```bash
 ai update
 ```
-
-## Common Issues
-
-### 429 error
-
-Some users are reporting a 429 from OpenAI. This is due to incorrect billing setup or excessive quota usage. Please follow [this guide](https://help.openai.com/en/articles/6891831-error-code-429-you-exceeded-your-current-quota-please-check-your-plan-and-billing-details) to fix it.
-
-You can activate billing at [this link](https://platform.openai.com/account/billing/overview). Make sure to add a payment method if not under an active grant from OpenAI.
-
-## Motivation
-
-I am not a bash wizard, and am dying for access to the copilot CLI, and got impatient.
-
-## Contributing
-
-If you want to help fix a bug or implement a feature in [Issues](https://github.com/BuilderIO/ai-shell/issues) (tip: look out for the `help wanted` label), checkout the [Contribution Guide](CONTRIBUTING.md) to learn how to setup the project.
-
-## Credit
-
-- Thanks to GitHub Copilot for their amazing tools and the idea for this
-- Thanks to Hassan and his work on [aicommits](https://github.com/Nutlope/aicommits) which inspired the workflow and some parts of the code and flows
-
-## Community
-
-Come join the [Builder.io discord](https://discord.gg/EMx6e58xnw) and chat with us in the #ai-shell room
-
-<br><br>
-
-<p align="center">
-   <a href="https://www.builder.io/m/developers">
-      <picture>
-         <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/844291/230786554-eb225eeb-2f6b-4286-b8c2-535b1131744a.png">
-         <img width="250" alt="Made with love by Builder.io" src="https://user-images.githubusercontent.com/844291/230786555-a58479e4-75f3-4222-a6eb-74c5af953eac.png">
-       </picture>
-   </a>
-</p>
