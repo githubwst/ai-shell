@@ -9,7 +9,6 @@
    一个将自然语言转换为 Shell 命令，同时支持ai对话的 CLI。
 </h4>
 
-
 <p align="center">
    <img alt="Gif Demo" src="https://user-images.githubusercontent.com/844291/230413167-773845e7-4c9f-44a5-909c-02802b5e49f6.gif" >
 <p>
@@ -211,4 +210,3 @@ ai update
 ## 动机
 
 以学习为目的。
-
